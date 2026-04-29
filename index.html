@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Asesmen - Persona Research & Consulting</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@700&バランス" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #0b2340;
+            --gold: #d4a017;
+            --ivory: #f9f9f7;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--navy);
+            color: var(--ivory);
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        .luxury-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(212, 160, 23, 0.2);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        .luxury-card:hover {
+            border-color: var(--gold);
+            transform: translateY(-5px);
+        }
+        .btn-gold {
+            background: linear-gradient(135deg, #d4a017 0%, #b8860b 100%);
+            color: #000;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn-gold:hover {
+            filter: brightness(1.2);
+            box-shadow: 0 4px 15px rgba(212, 160, 23, 0.4);
+        }
+        #loginOverlay {
+            position: fixed;
+            inset: 0;
+            background: var(--navy);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body oncontextmenu="return false">
+
+    <div id="loginOverlay">
+        <div class="bg-white/5 p-8 rounded-2xl border border-gold/30 text-center max-w-sm w-full mx-4">
+            <h2 style="font-family: 'Playfair Display', serif;" class="text-2xl text-gold mb-6">Persona Research</h2>
+            <input type="password" id="passInput" placeholder="Masukkan Password" class="w-full p-3 rounded bg-white/10 border border-white/20 mb-4 focus:outline-none focus:border-gold text-center">
+            <button onclick="checkPass()" class="w-full btn-gold py-3 rounded text-sm uppercase tracking-widest">Akses Sistem</button>
+            <p id="errMsg" class="text-red-400 mt-4 text-xs hidden">Password tidak sesuai.</p>
+        </div>
+    </div>
+
+    <div id="mainContent" class="hidden min-h-screen p-6 md:p-12">
+        <header class="text-center mb-12">
+            <h1 style="font-family: 'Playfair Display', serif;" class="text-4xl md:text-5xl text-gold mb-2">Assessment Center</h1>
+            <p class="text-gray-400 tracking-widest uppercase text-sm">Persona Research & Consulting</p>
+            <div class="w-24 h-1 bg-gold mx-auto mt-4"></div>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+            <script>
+                const menuItems = [
+                    { name: "Tes Kecermatan 11", file: "mono_11.html" },
+                    { name: "Tes Kecermatan 12", file: "mono_12.html" },
+                    { name: "Tes Kecermatan 13", file: "mono_13.html" },
+                    { name: "Tes Kecermatan Ekspresi 14", file: "mono_14_fix.html" },
+                    { name: "Tes Kecermatan Ekspresi 15", file: "mono_15.html" },
+                    { name: "Tes Kecermatan Ekspresi 16", file: "mono_16.html" },
+                    { name: "Tes Kecermatan Ekspresi 18", file: "mono_18_mix.html" },
+                    { name: "Tes Kecermatan Ekspresi 19", file: "mono_19.html" },
+                    { name: "Tes Kecermatan Ekspresi 20", file: "mono_20.html" }
+                ];
+
+                document.write(menuItems.map(item => `
+                    <div class="luxury-card p-6 rounded-xl flex flex-col justify-between">
+                        <h3 class="text-lg font-light mb-4">${item.name}</h3>
+                        <a href="${item.file}" class="btn-gold py-2 px-4 rounded text-center text-xs uppercase tracking-tighter">Buka Simulasi</a>
+                    </div>
+                `).join(''));
+            </script>
+        </div>
+
+        <footer class="mt-20 text-center text-gray-500 text-xs italic">
+            &copy; 2026 Persona Research & Consulting. All Rights Reserved.<br>
+            Sistem Kedaluwarsa: 1 Januari 2027
+        </footer>
+    </div>
+
+    <script>
+        // Security: Expiry Date Check
+        const expiryDate = new Date('2027-01-01');
+        const today = new Date();
+
+        if (today > expiryDate) {
+            document.body.innerHTML = `
+                <div class="flex items-center justify-center h-screen text-center">
+                    <div>
+                        <h1 class="text-gold text-3xl mb-2">Akses Berakhir</h1>
+                        <p class="text-gray-400">Lisensi aplikasi ini telah kedaluwarsa.<br>Silakan hubungi administrator.</p>
+                    </div>
+                </div>`;
+        }
+
+        function checkPass() {
+            const pass = document.getElementById('passInput').value;
+            if (pass === "persona05") {
+                document.getElementById('loginOverlay').classList.add('hidden');
+                document.getElementById('mainContent').classList.remove('hidden');
+            } else {
+                document.getElementById('errMsg').classList.remove('hidden');
+            }
+        }
+
+        // Anti-Copy & Shortcuts
+        document.onkeydown = function(e) {
+            if (e.ctrlKey && (e.keyCode === 67 || e.keyCode === 85 || e.keyCode === 73)) {
+                return false;
+            }
+        };
+    </script>
+</body>
