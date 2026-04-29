@@ -3,130 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Asesmen - Persona Research & Consulting</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@700&バランス" rel="stylesheet">
+    <title>Persona Research & Consulting</title>
     <style>
-        :root {
-            --navy: #0b2340;
-            --gold: #d4a017;
-            --ivory: #f9f9f7;
-        }
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--navy);
-            color: var(--ivory);
-            user-select: none;
-            -webkit-user-select: none;
-        }
-        .luxury-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(212, 160, 23, 0.2);
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-        }
-        .luxury-card:hover {
-            border-color: var(--gold);
-            transform: translateY(-5px);
-        }
-        .btn-gold {
-            background: linear-gradient(135deg, #d4a017 0%, #b8860b 100%);
-            color: #000;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-        .btn-gold:hover {
-            filter: brightness(1.2);
-            box-shadow: 0 4px 15px rgba(212, 160, 23, 0.4);
-        }
-        #loginOverlay {
-            position: fixed;
-            inset: 0;
-            background: var(--navy);
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+        :root { --navy: #0b2340; --gold: #d4a017; }
+        body { background: var(--navy); color: white; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; overflow: hidden; user-select: none; -webkit-user-select: none; }
+        .login-box { background: rgba(255,255,255,0.05); padding: 40px; border: 1px solid var(--gold); border-radius: 20px; text-align: center; width: 320px; backdrop-filter: blur(10px); }
+        input { width: 100%; padding: 12px; margin: 20px 0; border-radius: 8px; border: 1px solid rgba(212, 160, 23, 0.3); text-align: center; box-sizing: border-box; background: rgba(255,255,255,0.1); color: white; outline: none; }
+        input:focus { border-color: var(--gold); }
+        button { width: 100%; padding: 12px; background: linear-gradient(135deg, #d4a017, #b8860b); border: none; border-radius: 8px; cursor: pointer; font-weight: bold; color: black; letter-spacing: 1px; }
+        #content { display: none; padding: 40px 20px; text-align: center; overflow-y: auto; height: 100vh; width: 100%; background: var(--navy); box-sizing: border-box; }
+        .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; max-width: 1000px; margin: 0 auto; }
+        .card { border: 1px solid rgba(212, 160, 23, 0.2); padding: 25px; border-radius: 15px; background: rgba(255,255,255,0.03); transition: 0.3s; }
+        .card:hover { border-color: var(--gold); transform: translateY(-5px); }
+        .card span { display: block; margin-bottom: 15px; font-size: 15px; font-weight: 300; letter-spacing: 0.5px; }
+        a { color: black; text-decoration: none; display: block; background: var(--gold); padding: 10px; border-radius: 6px; font-size: 12px; font-weight: bold; transition: 0.3s; }
+        a:hover { filter: brightness(1.2); }
+        #pesanSalah { color: #ff6b6b; font-size: 12px; display: none; margin-top: 10px; }
     </style>
 </head>
 <body oncontextmenu="return false">
 
-    <div id="loginOverlay">
-        <div class="bg-white/5 p-8 rounded-2xl border border-gold/30 text-center max-w-sm w-full mx-4">
-            <h2 style="font-family: 'Playfair Display', serif;" class="text-2xl text-gold mb-6">Persona Research</h2>
-            <input type="password" id="passInput" placeholder="Masukkan Password" class="w-full p-3 rounded bg-white/10 border border-white/20 mb-4 focus:outline-none focus:border-gold text-center">
-            <button onclick="checkPass()" class="w-full btn-gold py-3 rounded text-sm uppercase tracking-widest">Akses Sistem</button>
-            <p id="errMsg" class="text-red-400 mt-4 text-xs hidden">Password tidak sesuai.</p>
-        </div>
+    <div id="loginPage" class="login-box">
+        <h2 style="color: var(--gold); margin: 0; font-weight: 400; letter-spacing: 2px;">PRC ACCESS</h2>
+        <p style="font-size: 11px; opacity: 0.6; margin-top: 10px; letter-spacing: 1px;">SILAKAN MASUKKAN KODE AKSES</p>
+        <input type="password" id="inputPass" placeholder="Password">
+        <button onclick="verifikasi()">MASUK</button>
+        <p id="pesanSalah">Password salah, silakan coba lagi.</p>
     </div>
 
-    <div id="mainContent" class="hidden min-h-screen p-6 md:p-12">
-        <header class="text-center mb-12">
-            <h1 style="font-family: 'Playfair Display', serif;" class="text-4xl md:text-5xl text-gold mb-2">Assessment Center</h1>
-            <p class="text-gray-400 tracking-widest uppercase text-sm">Persona Research & Consulting</p>
-            <div class="w-24 h-1 bg-gold mx-auto mt-4"></div>
-        </header>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            <script>
-                const menuItems = [
-                    { name: "Tes Kecermatan 11", file: "mono_11.html" },
-                    { name: "Tes Kecermatan 12", file: "mono_12.html" },
-                    { name: "Tes Kecermatan 13", file: "mono_13.html" },
-                    { name: "Tes Kecermatan Ekspresi 14", file: "mono_14_fix.html" },
-                    { name: "Tes Kecermatan Ekspresi 15", file: "mono_15.html" },
-                    { name: "Tes Kecermatan Ekspresi 16", file: "mono_16.html" },
-                    { name: "Tes Kecermatan Ekspresi 18", file: "mono_18_mix.html" },
-                    { name: "Tes Kecermatan Ekspresi 19", file: "mono_19.html" },
-                    { name: "Tes Kecermatan Ekspresi 20", file: "mono_20.html" }
-                ];
-
-                document.write(menuItems.map(item => `
-                    <div class="luxury-card p-6 rounded-xl flex flex-col justify-between">
-                        <h3 class="text-lg font-light mb-4">${item.name}</h3>
-                        <a href="${item.file}" class="btn-gold py-2 px-4 rounded text-center text-xs uppercase tracking-tighter">Buka Simulasi</a>
-                    </div>
-                `).join(''));
-            </script>
+    <div id="content">
+        <h1 style="color: var(--gold); font-weight: 300; letter-spacing: 3px;">ASSESSMENT MENU</h1>
+        <div style="width: 60px; height: 2px; background: var(--gold); margin: 20px auto 40px;"></div>
+        
+        <div class="menu-grid">
+            <div class="card"><span>Tes Kecermatan 11</span><a href="mono_11.html">MULAI TES</a></div>
+            <div class="card"><span>Tes Kecermatan 12</span><a href="mono_12.html">MULAI TES</a></div>
+            <div class="card"><span>Tes Kecermatan 13</span><a href="mono_13.html">MULAI TES</a></div>
+            <div class="card"><span>Kecermatan Ekspresi 14</span><a href="mono_14_fix.html">MULAI TES</a></div>
+            <div class="card"><span>Kecermatan Ekspresi 15</span><a href="mono_15.html">MULAI TES</a></div>
+            <div class="card"><span>Kecermatan Ekspresi 16</span><a href="mono_16.html">MULAI TES</a></div>
+            <div class="card"><span>Kecermatan Ekspresi 18</span><a href="mono_18_mix.html">MULAI TES</a></div>
+            <div class="card"><span>Kecermatan Ekspresi 19</span><a href="mono_19.html">MULAI TES</a></div>
+            <div class="card"><span>Kecermatan Ekspresi 20</span><a href="mono_20.html">MULAI TES</a></div>
         </div>
 
-        <footer class="mt-20 text-center text-gray-500 text-xs italic">
-            &copy; 2026 Persona Research & Consulting. All Rights Reserved.<br>
-            Sistem Kedaluwarsa: 1 Januari 2027
-        </footer>
+        <p style="margin-top: 60px; font-size: 11px; opacity: 0.4; letter-spacing: 1px;">
+            Berlaku hingga: 1 Juli 2026 | Persona Research & Consulting
+        </p>
     </div>
 
     <script>
-        // Security: Expiry Date Check
-        const expiryDate = new Date('2027-01-01');
-        const today = new Date();
+        // Keamanan: Cek Tanggal Kadaluarsa (1 Juli 2026)
+        const tanggalExp = new Date('2026-07-01');
+        const hariIni = new Date();
 
-        if (today > expiryDate) {
+        if (hariIni > tanggalExp) {
             document.body.innerHTML = `
-                <div class="flex items-center justify-center h-screen text-center">
-                    <div>
-                        <h1 class="text-gold text-3xl mb-2">Akses Berakhir</h1>
-                        <p class="text-gray-400">Lisensi aplikasi ini telah kedaluwarsa.<br>Silakan hubungi administrator.</p>
-                    </div>
+                <div style="text-align:center;">
+                    <h2 style="color:var(--gold);">AKSES TERPUTUS</h2>
+                    <p style="opacity:0.7; font-size:14px;">Masa berlaku sistem ini telah berakhir pada 1 Juli 2026.<br>Hubungi admin untuk perpanjangan.</p>
                 </div>`;
         }
 
-        function checkPass() {
-            const pass = document.getElementById('passInput').value;
-            if (pass === "persona05") {
-                document.getElementById('loginOverlay').classList.add('hidden');
-                document.getElementById('mainContent').classList.remove('hidden');
+        function verifikasi() {
+            const pass = document.getElementById('inputPass').value;
+            // Update Password Baru: persona02
+            if (pass === "persona02") {
+                document.getElementById('loginPage').style.display = 'none';
+                document.getElementById('content').style.display = 'block';
+                document.body.style.overflow = 'auto';
             } else {
-                document.getElementById('errMsg').classList.remove('hidden');
+                document.getElementById('pesanSalah').style.display = 'block';
             }
         }
 
-        // Anti-Copy & Shortcuts
+        // Support tombol Enter
+        document.getElementById("inputPass").addEventListener("keyup", function(event) {
+            if (event.keyCode === 13) {
+                verifikasi();
+            }
+        });
+
+        // Blokir Inspect Element (F12 & Ctrl+Shift+I)
         document.onkeydown = function(e) {
-            if (e.ctrlKey && (e.keyCode === 67 || e.keyCode === 85 || e.keyCode === 73)) {
+            if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) || (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0))) {
                 return false;
             }
         };
     </script>
 </body>
+</html>
